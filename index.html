@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#11120f">
+  <meta name="description" content="Um RPG de fantasia sombria sobre os sete fragmentos do eclipse.">
+  <title>Crônicas do Último Eclipse</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./js/main.js"></script>
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+  <main id="title-screen" class="title-screen">
+    <div class="title-art" aria-hidden="true"><span class="eclipse-ring"></span><span class="ruin-line"></span><span class="ember ember-one"></span><span class="ember ember-two"></span></div>
+    <header class="title-brand"><span class="eyebrow">UMA CRÔNICA DE ERYNDOR</span><h1>CRÔNICAS DO<br><i>ÚLTIMO ECLIPSE</i></h1><p>Quando o sol desapareceu, a noite aprendeu nossos nomes.</p></header>
+    <nav class="title-menu" aria-label="Menu principal">
+      <button class="menu-action primary" data-screen="new-game">Nova jornada <span>01</span></button>
+      <button class="menu-action" data-screen="continue">Continuar <span>02</span></button>
+      <button class="menu-action" data-screen="settings">Configurações <span>03</span></button>
+      <button class="menu-action" data-screen="credits">Créditos <span>04</span></button>
+    </nav>
+    <footer class="title-footer"><span>ERYNDOR · ANO 300 DO CREPÚSCULO</span><span>TECLAS 1–8 NAVEGAM PELOS MENUS</span></footer>
+  </main>
+
+  <section id="setup-screen" class="modal-screen hidden" aria-labelledby="setup-title">
+    <div class="modal-card setup-card">
+      <button class="icon-button modal-close" data-screen="title" aria-label="Voltar ao menu">×</button>
+      <span class="eyebrow">O PRIMEIRO PASSO</span><h2 id="setup-title">Quem sobreviveu?</h2>
+      <label class="field-label" for="hero-name">Nome</label><input id="hero-name" maxlength="24" value="A sobrevivente" autocomplete="off">
+      <p class="field-label">Arquétipo</p><div id="archetype-list" class="archetype-list"></div>
+      <button id="start-adventure" class="button button-primary">Despertar em Valdora <span>↗</span></button>
+    </div>
+  </section>
+
+  <section id="slots-screen" class="modal-screen hidden" aria-labelledby="slots-title">
+    <div class="modal-card"><button class="icon-button modal-close" data-screen="title" aria-label="Voltar ao menu">×</button><span class="eyebrow">MEMÓRIAS GUARDADAS</span><h2 id="slots-title">Continuar jornada</h2><div id="save-slots" class="slot-list"></div></div>
+  </section>
+
+  <section id="info-screen" class="modal-screen hidden" aria-labelledby="info-title">
+    <div class="modal-card"><button class="icon-button modal-close" data-close-modal aria-label="Fechar configurações">×</button><span class="eyebrow">ERYNDOR</span><h2 id="info-title"></h2><div id="info-content"></div></div>
+  </section>
+
+  <div id="game-shell" class="game-shell hidden">
+    <header class="topbar">
+      <a class="brand-mark" href="#world" aria-label="Crônicas do Último Eclipse">CE<span>✳</span></a>
+      <div class="topbar-location"><span class="eyebrow">REGIÃO ATUAL</span><strong id="top-location">Valdora</strong></div>
+      <div class="topbar-resources"><span id="top-gold">◈ 0</span><span id="top-level">NV. 1</span><button id="save-button" class="button button-small" title="Salvar partida (Ctrl+S)">Salvar</button></div>
+    </header>
+    <aside class="sidebar">
+      <div class="hero-mini"><div class="portrait-mark">☼</div><div><strong id="hero-name-label">A sobrevivente</strong><span id="hero-class-label">Sentinela · Nv. 1</span></div></div>
+      <div class="vitals"><div class="vital-label"><span>VIDA</span><b id="hp-label">0 / 0</b></div><div class="meter"><i id="hp-meter" class="meter-hp"></i></div><div class="vital-label"><span>MANA</span><b id="mp-label">0 / 0</b></div><div class="meter"><i id="mp-meter" class="meter-mp"></i></div><div class="vital-label"><span>EXPERIÊNCIA</span><b id="xp-label">0 / 0</b></div><div class="meter"><i id="xp-meter" class="meter-xp"></i></div></div>
+      <nav id="game-nav" class="game-nav" aria-label="Painéis do jogo">
+        <button class="nav-item active" data-tab="world"><span>⌂</span> Jornada <kbd>1</kbd></button>
+        <button class="nav-item" data-tab="character"><span>◉</span> Personagem <kbd>2</kbd></button>
+        <button class="nav-item" data-tab="map"><span>⌖</span> Mapa <kbd>3</kbd></button>
+        <button class="nav-item" data-tab="quests"><span>☷</span> Missões <kbd>4</kbd></button>
+        <button class="nav-item" data-tab="inventory"><span>▤</span> Inventário <kbd>5</kbd></button>
+          <button class="nav-item" data-tab="companions"><span>♧</span> Companheiros <kbd>6</kbd></button>
+          <button class="nav-item" data-tab="skills"><span>✧</span> Habilidades <kbd>7</kbd></button>
+          <button class="nav-item" data-tab="journal"><span>≋</span> Crônica <kbd>8</kbd></button>
+      </nav>
+      <div class="sidebar-bottom"><span class="status-dot"></span><span>O céu permanece imóvel</span><button id="settings-button" class="icon-button" title="Configurações">⚙</button></div>
+    </aside>
+    <main id="main-panel" class="main-panel" tabindex="-1"></main>
+    <aside class="right-rail">
+      <section class="rail-section"><div class="rail-heading"><span class="eyebrow">AO SEU LADO</span><button class="text-button" data-tab="companions">VER GRUPO ↗</button></div><div id="party-rail"></div></section>
+      <section class="rail-section rail-chronicle"><div class="rail-heading"><span class="eyebrow">ÚLTIMOS ACONTECIMENTOS</span><button class="text-button" data-tab="journal">ABRIR ↗</button></div><div id="event-rail"></div></section>
+      <section class="rail-section rail-quick"><span class="eyebrow">ATALHOS</span><button data-tab="quests">J · Diário de missões</button><button data-tab="map">M · Mapa de Eryndor</button><button id="quick-save">Ctrl+S · Salvar partida</button></section>
+    </aside>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </div>
+</body>
+</html>
